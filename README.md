@@ -18,6 +18,12 @@ I needed a way to:
 
 ### Usage
 
+No AWS Lambda
+```
+npm run local
+```
+
+Using AWS Lambda
 ```
 sam build
 sam local invoke
@@ -31,7 +37,3 @@ sam local invoke
 ```
 sam deploy
 ```
-
-## TODO list
-
-- [] Reduce application logic by enhancing queries
