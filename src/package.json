@@ -1,18 +1,24 @@
 {
-  "name": "hello_world",
+  "name": "historial-ofertas",
   "version": "1.0.0",
-  "description": "hello world sample for NodeJS",
+  "description": "Historial ofertas Lambda",
   "main": "app.mjs",
-  "repository": "https://github.com/awslabs/aws-sam-cli/tree/develop/samcli/local/init/templates/cookiecutter-aws-sam-hello-nodejs",
+  "repository": "https://github.com/pablofelitti/historial-ofertas",
   "author": "SAM CLI",
   "license": "MIT",
   "dependencies": {
-    "axios": ">=0.21.1"
+    "@aws-sdk/client-sqs": "^3.131.0",
+    "@aws-sdk/client-ssm": "^3.131.0",
+    "chrome-aws-lambda": "^10.1.0",
+    "https": "^1.0.0",
+    "mysql2": "^2.3.3",
+    "puppeteer-core": "^10.4.0"
   },
   "scripts": {
     "local": "node local-run.mjs",
     "test": "mocha tests/unit/"
   },
   "devDependencies": {
+    "puppeteer": "^17.1.1"
   }
 }
