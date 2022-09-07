@@ -13,14 +13,26 @@ export class Service {
             ignoreHTTPSErrors: true,
         })
 
+        function sanitizeDeal(deal) {
+            let size = deal.productLink.split('/').length
+            deal.id = deal.productLink.split('/')[size - 1]
+            deal.discount = parseInt(deal.discount.replace(/\D/g, ""))
+            return deal
+        }
+
+        function sanitizeDeals(deals) {
+            return deals.forEach(deal => sanitizeDeal(deal))
+        }
+
         try {
             const page = await browser.newPage()
             await openPage(page)
 
-            const posts = await getDeals(page)
+            let deals = await getDeals(page)
+            sanitizeDeals(deals)
 
             browser.close().then(() => console.log('Browser closed'))
-            return posts
+            return deals
         } catch (e) {
             console.log('An error occurred: ')
             console.log(e)

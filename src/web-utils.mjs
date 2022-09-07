@@ -16,14 +16,28 @@ export async function getDeals(page) {
                 .filter(it => it.classList.contains(clazz))
         }
 
-        function searchTree(element, matchingNodeType, includingClassName) {
+        function searchTreeByNodetype(element, matchingNodeType) {
+            if (element.nodeName == matchingNodeType) {
+                return element
+            } else if (element.children != null) {
+                let i
+                let result = null
+                for (i = 0; result == null && i < element.children.length; i++) {
+                    result = searchTreeByNodetype(element.children[i], matchingNodeType)
+                }
+                return result
+            }
+            return null
+        }
+
+        function searchTreeByNodetypeAndClass(element, matchingNodeType, includingClassName) {
             if (element.nodeName == matchingNodeType && element.classList.contains(includingClassName)) {
                 return element
             } else if (element.children != null) {
                 let i
                 let result = null
                 for (i = 0; result == null && i < element.children.length; i++) {
-                    result = searchTree(element.children[i], matchingNodeType, includingClassName)
+                    result = searchTreeByNodetypeAndClass(element.children[i], matchingNodeType, includingClassName)
                 }
                 return result
             }
@@ -35,10 +49,18 @@ export async function getDeals(page) {
 
         deals.forEach(deal => {
 
-            let discountValue = searchTree(deal, 'DIV', 'label-discount').innerText
+            let discountValue = searchTreeByNodetypeAndClass(deal, 'DIV', 'label-discount').innerText
+            let imageLink = searchTreeByNodetypeAndClass(deal, 'IMG', 'img-product').src
+            let productLink = searchTreeByNodetype(deal, 'A').href
+            let nameValue = searchTreeByNodetypeAndClass(deal, 'H4', 'product-title').innerText
+            let storeValue = searchTreeByNodetypeAndClass(deal, 'UL', 'deal-meta').innerText
 
             result.push({
-                discount: discountValue
+                discount: discountValue,
+                imageLink: imageLink,
+                productLink: productLink,
+                name: nameValue,
+                store: storeValue
             })
         })
 
