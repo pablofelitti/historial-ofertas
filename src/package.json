@@ -15,7 +15,7 @@
     "puppeteer-core": "^10.4.0"
   },
   "scripts": {
-    "local": "node local-run.mjs",
+    "local": "ENVIRONMENT=dev node local-run.mjs",
     "test": "mocha tests/unit/"
   },
   "devDependencies": {
