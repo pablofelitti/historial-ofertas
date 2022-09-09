@@ -1,26 +1,9 @@
 import chromium from "chrome-aws-lambda"
 import {getDeals, openPage} from "./web-utils.mjs"
-import {GetParametersByPathCommand, SSMClient} from "@aws-sdk/client-ssm"
 import {SQSClient, SendMessageCommand} from "@aws-sdk/client-sqs"
-import mysql from "mysql2/promise"
 import {Dao} from "./dao.mjs"
 
-const ssmClient = new SSMClient({region: 'us-east-1'})
-const command = new GetParametersByPathCommand({Path: "/applications-db"})
-const ssmResponse = await ssmClient.send(command)
-
-const clientOptions = {
-    host: ssmResponse.Parameters.filter(it => it.Name === '/applications-db/host')[0].Value,
-    user: ssmResponse.Parameters.filter(it => it.Name === '/applications-db/user')[0].Value,
-    password: ssmResponse.Parameters.filter(it => it.Name === '/applications-db/password')[0].Value,
-    database: ssmResponse.Parameters.filter(it => it.Name === '/applications-db/database-historial-ofertas')[0].Value,
-    ssl: {
-        rejectUnauthorized: false
-    }
-}
-
-let dbClient = await mysql.createConnection(clientOptions)
-const dao = new Dao(dbClient)
+const dao = new Dao()
 
 export class Service {
 
@@ -90,7 +73,7 @@ export async function sendQueue(data) {
             },
             "Channel": {
                 DataType: "String",
-                StringValue: "ofertas"
+                StringValue: "historial-ofertas"
             }
         },
         MessageBody: data,
