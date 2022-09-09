@@ -25,11 +25,17 @@ export class Service {
         }
 
         function sanitizeDeals(deals) {
-            return deals.forEach(deal => sanitizeDeal(deal))
+            deals.forEach(deal => sanitizeDeal(deal))
         }
 
         function removeAlreadyNotified(deals, alreadyNotified) {
             return deals.filter(deal => !alreadyNotified.includes(deal.id));
+        }
+
+        function filterUnwanted(deals) {
+            return deals
+                .filter(deal => deal.store !== 'ICBC Store')
+                .filter(deal => deal.discount >= 50)
         }
 
         try {
@@ -38,11 +44,12 @@ export class Service {
 
             let deals = await getDeals(page)
             sanitizeDeals(deals)
+            let filteredDeals = filterUnwanted(deals)
 
             browser.close().then(() => console.log('Browser closed'))
 
-            let alreadyNotified = await dao.retrieveExistingNotifiedPublications(deals)
-            let notNotifiedPublications = removeAlreadyNotified(deals, alreadyNotified)
+            let alreadyNotified = await dao.retrieveExistingNotifiedPublications(filteredDeals)
+            let notNotifiedPublications = removeAlreadyNotified(filteredDeals, alreadyNotified)
 
             if (notNotifiedPublications.length === 0) {
                 console.log('Nothing new to notify')
