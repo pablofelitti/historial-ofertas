@@ -4,8 +4,8 @@ Description: historial-ofertas
 
 Globals:
   Function:
-    Timeout: 40
-    MemorySize: 320
+    Timeout: 60
+    MemorySize: 256
 
 Resources:
   HistorialOfertasFunction:

@@ -9,10 +9,10 @@
   "dependencies": {
     "@aws-sdk/client-sqs": "^3.131.0",
     "@aws-sdk/client-ssm": "^3.131.0",
-    "chrome-aws-lambda": "^10.1.0",
+    "@sparticuz/chromium": "^116.0.0",
     "https": "^1.0.0",
     "mysql2": "^2.3.3",
-    "puppeteer-core": "^10.4.0"
+    "puppeteer-core": "^21.1.1"
   },
   "scripts": {
     "local": "ENVIRONMENT=dev node local-run.mjs",

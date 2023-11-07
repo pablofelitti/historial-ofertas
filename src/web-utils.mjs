@@ -72,6 +72,6 @@ export async function openPage(page) {
     await page.setJavaScriptEnabled(false)
     return await page.goto('https://historial.com.ar/', {
         waitUntil: 'load',
-        timeout: 15000
+        timeout: 45000
     })
 }

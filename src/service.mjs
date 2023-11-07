@@ -1,21 +1,25 @@
-import chromium from "chrome-aws-lambda"
+import chromium from "@sparticuz/chromium";
+import puppeteer from "puppeteer-core";
 import {getDeals, openPage} from "./web-utils.mjs"
 import {SQSClient, SendMessageCommand} from "@aws-sdk/client-sqs"
 import {Dao} from "./dao.mjs"
 
 const dao = new Dao()
 
+chromium.setHeadlessMode = true;
+chromium.setGraphicsMode = false;
+
 export class Service {
 
     async loadDeals() {
 
-        const browser = await chromium.puppeteer.launch({
+        const browser = await puppeteer.launch({
             args: chromium.args,
             defaultViewport: chromium.defaultViewport,
-            executablePath: await chromium.executablePath,
-            headless: true,
-            ignoreHTTPSErrors: true,
-        })
+            executablePath: await chromium.executablePath(),
+            headless: chromium.headless,
+            ignoreHTTPSErrors: true
+        });
 
         function sanitizeDeal(deal) {
             let size = deal.productLink.split('/').length
