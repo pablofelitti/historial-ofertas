@@ -32,4 +32,4 @@ Resources:
             Schedule: 'rate(2 minutes)'
             Name: HistorialOfertasSchedule
             Description: Historial ofertas schedule
-            Enabled: true
+            Enabled: false
